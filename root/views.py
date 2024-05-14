@@ -1,12 +1,19 @@
 from django.shortcuts import render
 from services.models import SpecialService
+from .models import FrequentlyQuestions
 
 
 from django.http import HttpResponse
 
 
 def home(request):
-    return render(request, 'root/index.html', context={'specials': SpecialService.objects.all()})
+
+    context = {
+        'specials': SpecialService.objects.filter(status=True),
+        'questions': FrequentlyQuestions.objects.filter(status=True)[::-1],
+        }
+    
+    return render(request, 'root/index.html', context=context)
 
 
 def contact(request):

@@ -1,0 +1,45 @@
+Table SpecialServices {
+  id integer pk
+  title text
+  content text
+  created_at timestamp 
+  updated_at timestamp
+  status bool
+}
+
+Table FrequentlyQuestion {
+  id integer pk
+  question text
+  answer text
+  created_at timestamp 
+  updated_at timestamp
+  status bool
+}
+
+Table Users {
+  id integer pk
+  username text
+  paswword text
+  created_at timestamp 
+  updated_at timestamp
+  status bool
+  email email
+  first_name text
+  last_name char
+
+}
+
+Table Skills{
+  id int pk
+  title text
+}
+
+Table Team {
+  id integer pk
+  user fk
+  skills mmf
+  description text
+  last_name char
+  status bool
+
+}
