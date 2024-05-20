@@ -88,7 +88,7 @@
           </div>
           <div class="col-lg-6 content order-last  order-lg-first">
             <h3>About Us</h3>
-            <p>
+            <p class="text-truncate" style="max-width:450px;">
               Dolor iure expedita id fuga asperiores qui sunt consequatur minima. Quidem voluptas deleniti. Sit quia molestiae quia quas qui magnam itaque veritatis dolores. Corrupti totam ut eius incidunt reiciendis veritatis asperiores placeat.
             </p>
             <ul>
@@ -295,7 +295,7 @@
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  {{person.truncate_char}}...
+                  {{person.description|truncatechars:10}}...
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
