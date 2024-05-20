@@ -42,7 +42,7 @@ class Team(models.Model):
         return self.user.username
     
 
-    def truncate_char(self):
-        return str(self.description)[:10]
+    # def truncate_char(self):
+    #     return str(self.description)[:10]
 
 # Create your models here.
