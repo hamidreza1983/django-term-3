@@ -63,7 +63,7 @@
             <div class="icon flex-shrink-0"><i class="fa-solid fa-cart-flatbed"></i></div>
             <div>
               <h4 class="title">{{service.title}}</h4>
-              <p class="description">{{service.content}}</p>
+              <p class="description">{{service.content|truncatechars:20}}</p>
               <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
@@ -294,7 +294,7 @@
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  {{person.truncate_char}}...
+                  {{person.description|truncatewords:2}}...
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
