@@ -62,10 +62,9 @@
           <li><a href="{% url 'services:qoute' %}">Get-a-quote</a></li>
           <li class="dropdown"><a href="#"><span>Category</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+              {% for cat in category %}
+              <li><a href="#">{{cat.title}}</a></li>
+              {% endfor %}
             </ul>
           </li>
           <li><a class="get-a-quote" href="register.html">Register</a></li>
