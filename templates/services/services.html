@@ -57,8 +57,8 @@
           <h2>Our Services</h2>
 
             <form>
-              <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-              <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+              <input type="text" name='search' class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+              <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
             </form>
 
         </div>
@@ -71,9 +71,9 @@
               <div class="card-img">
                 <img src={{service.image.url}} alt="" class="img-fluid">
               </div>
-              <h3><a href="service-details.html" class="stretched-link">{{service.name}}</a></h3>
+              <h3><a href="service-details.html">{{service.name}}</a></h3>
               <p>{{service.content}}</p>
-              <p>price : {{service.price}}</p>
+              <p><a href={% url 'services:services' %}?price={{service.price}}>price : {{service.price}}</a></p>
               <p>visited : {{service.counted_view}}</p>
               <p>started_at :{{service.created_at|date:"D d M o"}}</p>
             </div>
