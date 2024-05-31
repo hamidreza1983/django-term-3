@@ -71,9 +71,10 @@
               <div class="card-img">
                 <img src={{service.image.url}} alt="" class="img-fluid">
               </div>
-              <h3><a href="service-details.html">{{service.name}}</a></h3>
+              <h3><a href={% url 'services:services-detail' id=service.id %}>{{service.name}}</a></h3>
               <p>{{service.content}}</p>
-              <p><a href={% url 'services:services' %}?price={{service.price}}>price : {{service.price}}</a></p>
+              <p><a href={% url 'services:list_by_price' price=service.price %}>price : {{service.price}}</a></p>
+              {% comment %} <p><a href={% url 'services:services' %}?price={{service.price}}>price : {{service.price}}</a></p> {% endcomment %}
               <p>visited : {{service.counted_view}}</p>
               <p>started_at :{{service.created_at|date:"D d M o"}}</p>
             </div>
@@ -346,6 +347,18 @@
 
           </div>
         </div>
+        {% if services.has_next and services.has_previous %}
+        <h5><a href='?page=1'><<</a>
+        <a href="?page={{services.previous_page_number}}"><</a>
+        <a href="?page={{services.next_page_number}}">></a>
+        <a href="?page={{last_page}}">>></a> </h5>
+        {% elif services.has_next %}
+        <h5><a href="?page={{services.next_page_number}}">></a>
+        <a href="?page={{last_page}}">>></a> </h5>
+        {% elif services.has_previous %}
+        <h5><a href='?page=1'><<</a>
+        <a href="?page={{services.previous_page_number}}"><</a></h5>
+        {% endif %}
 
       </div>
     </section><!-- End Frequently Asked Questions Section -->

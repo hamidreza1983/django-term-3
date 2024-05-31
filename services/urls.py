@@ -6,7 +6,8 @@ app_name = 'services'
 
 urlpatterns = [
     path('', services, name='services'),
-    path('<str:category>', services, name='list_by_category'),
-    path('service-detail/', services_detail, name='services-detail'),
+    path('category/<str:category>', services, name='list_by_category'),
+    path('price/<int:price>', services, name='list_by_price'),
+    path('service-detail/<int:id>', services_detail, name='services-detail'),
     path('qoute/', qoute, name='qoute'),
 ]
