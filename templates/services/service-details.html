@@ -65,6 +65,9 @@
           </div>
 
         </div>
+        {% for comment in comments %}
+           <p><a href={% url "services:edit_comment"  id=comment.id %}>{{comment.message}}</p>
+        {% endfor %}
 
       </div>
     </section><!-- End Service Details Section -->

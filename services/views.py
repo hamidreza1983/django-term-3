@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import CommentsForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -23,7 +25,7 @@ def services(request, **kwargs):
     else:
         all_service = Services.objects.filter(status=True)
 
-    all_services = Paginator(all_service,1)
+    all_services = Paginator(all_service,2)
     last_page = all_services.num_pages
     try:
         page_number = request.GET.get('page')
@@ -44,12 +46,48 @@ def services(request, **kwargs):
     return render(request, 'services/services.html', context = context)
 
 def services_detail(request, id):
-    service = Services.objects.get(id=id)
+    #service = Services.objects.get(id=id)
 
-    context = {
-        'detail':service,
-    }
-    return render(request, 'services/service-details.html', context = context)
+    #service = get_object_or_404(Services, id=id)
+
+    try:
+        service = Services.objects.get(id=id)
+        comments = Comments.objects.filter(product_name=service.name, status=True)
+        service.counted_view += 1
+        service.save()
+        context = {
+            'detail':service,
+            'comments': comments,
+        }
+        return render(request, 'services/service-details.html', context = context)
+    
+    except:
+        return render(request, 'services/404.html')
+
 
 def qoute(request):
-    return render(request, 'services/get-a-quote.html')
+    if request.method == 'POST':
+        form = CommentsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'your comments was delivered successfully and will be published ASAP !...')
+            return redirect(request.path_info)
+        else:
+            messages.add_message(request, messages.ERROR, 'your input data may be incorrect')
+            return redirect(request.path_info)
+    else:
+        return render(request, 'services/get-a-quote.html')
+    
+def edit_comment(request, id):
+    comment = get_object_or_404(Comments, id=id)
+    if request.method == 'POST':
+        form = CommentsForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect("services:services")
+    else:
+        form = CommentsForm(instance=comment)
+        context = {
+            'form': form,
+        }
+        return render (request, 'services/edit.html', context=context)

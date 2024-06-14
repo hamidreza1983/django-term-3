@@ -35,29 +35,30 @@
           <div class="col-lg-5 quote-bg" style="background-image: url({% static 'assets/img/quote-bg.jpg' %});"></div>
 
           <div class="col-lg-7">
-            <form action="forms/quote.php" method="post" class="php-email-form">
+            <form method="post">
+              {% csrf_token %}
               <h3>Get a quote</h3>
               <p>Vel nobis odio laboriosam et hic voluptatem. Inventore vitae totam. Rerum repellendus enim linead sero park flows.</p>
               <div class="row gy-4">
 
                 <div class="col-md-6">
-                  <input type="text" name="departure" class="form-control" placeholder="Product or service" required>
+                  <input type="text" name="product_name" class="form-control" placeholder="Product or service" required>
                 </div>
 
                 <div class="col-md-12">
                   <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
                 </div>
 
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your quote request has been sent successfully. Thank you!</div>
-
                   <button type="submit">Get a quote</button>
                 </div>
 
               </div>
             </form>
+            {% if messages %}
+            {% for message in messages %}
+                {{message}}
+            {% endfor %}
+            {% endif %}
           </div><!-- End Quote Form -->
 
         </div>

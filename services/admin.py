@@ -14,4 +14,5 @@ admin.site.register(Skills)
 admin.site.register(Category)
 admin.site.register(Options)
 admin.site.register(Services)
+admin.site.register(Comments)
 # Register your models here.

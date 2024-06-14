@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from services.models import SpecialService
-from .models import FrequentlyQuestions
+from .models import FrequentlyQuestions, ContactUs
 from services.models import Team
-
+from .forms import ContactUsForm
+from django.contrib import messages
 
 
 from django.http import HttpResponse
@@ -20,7 +21,29 @@ def home(request):
 
 
 def contact(request):
-    return render(request, "root/contact.html")
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+#            name = form.cleaned_data['name']
+#            email = form.cleaned_data['email']
+#            subject = form.cleaned_data['subject']
+#            message = form.cleaned_data['message']
+#            new_contact = ContactUs()
+#            new_contact.name = name
+#            new_contact.email = email
+#            new_contact.subject = subject
+#            new_contact.message = message
+#            new_contact.save()
+
+            messages.add_message(request, messages.SUCCESS, 'your message was submited successfully')
+            return redirect('root:contact')
+        else:
+            messages.add_message(request, messages.ERROR, 'your input data may be incorrect')
+            return redirect('root:contact')
+    else:
+        form = ContactUsForm()
+        return render(request, "root/contact.html", context = {'form': form})
 
 
 def about(request):
