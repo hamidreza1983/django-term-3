@@ -84,6 +84,9 @@ def edit_comment(request, id):
         form = CommentsForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
+#            obj = form.save(commit=False)
+#            obj.status = False
+#            obj.save()
             return redirect("services:services")
     else:
         form = CommentsForm(instance=comment)

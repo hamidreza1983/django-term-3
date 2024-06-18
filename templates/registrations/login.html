@@ -1,0 +1,13 @@
+<form method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type='submit'>login</button>
+</form>
+<h3><a href={% url "accounts:signup" %}>you have not any accounts ? click here</a></h3>
+<h3><a href={% url "accounts:reset_password" %}>forgot password</a></h3>
+{% if messages %}
+{% for message in messages %}
+    {{message}}
+{% endfor %}
+
+{% endif %}

@@ -1,5 +1,6 @@
 <form method="post">
     {% csrf_token %}
+{% comment %}     <input type="text" value={{comment.message}}> {% endcomment %}
     {{form}}
     <button type="submit" class="btn btn-primary">edit_comments</button>
 </form>
