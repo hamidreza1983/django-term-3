@@ -16,13 +16,12 @@ def login_user(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-
-    if user is not None:
-        login(request, user)
-        return redirect('/')
-    else:
-        messages.add_message(request, messages.ERROR, 'input data is not valid')
-        return redirect('accounts:login')
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.add_message(request, messages.ERROR, 'input data is not valid')
+            return redirect('accounts:login')
 
     
 
