@@ -72,7 +72,7 @@
           <li><a class="get-a-quote" href={% url 'accounts:logout' %}>Logout</a></li>
           <li style='color:white;'>logged as {{request.user.username}}</li>
           <li><a href={% url 'accounts:change_password' %}>change password</a></li>
-          <li><a href={% url 'accounts:edit_profile' %}>change profile</a></li>
+          <li><a href={% url 'accounts:edit_profile' id=request.user.id %}>change profile</a></li>
           {% else %}
           <li><a class="get-a-quote" href={% url 'accounts:login' %}>Login/Signup</a></li>
           {% endif %}

@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class LoginForm(forms.Form):
@@ -21,4 +23,10 @@ class ResetPasswordForm(forms.Form):
 class ResetPasswordConfirm(forms.Form):
     new_password1 = forms.CharField(max_length=20, widget=forms.PasswordInput)
     new_password2 = forms.CharField(max_length=20, widget=forms.PasswordInput)
+
+class EditprofileForm(forms.ModelForm):
+
+    class Meta:
+        model  = User
+        fields = ['first_name', 'last_name', 'image', 'phone', "id_code"]
     
