@@ -41,7 +41,13 @@ INSTALLED_APPS = [
     'services',
     'accounts',
     'rest_framework.authtoken',
+    'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'robots',
+    'captcha',
 ]
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

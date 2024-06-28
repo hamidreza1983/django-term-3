@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block 'title' %}services{% endblock 'title' %}
 {% block 'content' %}
   <main id="main">
@@ -73,9 +74,9 @@
               </div>
               <h3><a href={% url 'services:services-detail' id=service.id %}>{{service.name}}</a></h3>
               <p>{{service.content}}</p>
-              <p><a href={% url 'services:list_by_price' price=service.price %}>price : {{service.price}}</a></p>
+              <p><a href={% url 'services:list_by_price' price=service.price %}>price : {{service.price|intcomma}}</a></p>
               {% comment %} <p><a href={% url 'services:services' %}?price={{service.price}}>price : {{service.price}}</a></p> {% endcomment %}
-              <p>visited : {{service.counted_view}}</p>
+              <p>visited : {{service.counted_view|apnumber}}</p>
               <p>started_at :{{service.created_at|date:"D d M o"}}</p>
             </div>
           </div><!-- End Card Item -->

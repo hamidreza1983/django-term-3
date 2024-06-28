@@ -18,15 +18,28 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.sitemaps.views import sitemap
+from root.sitemap import StaticViewSitemap, DynamicViewSitemap, StaticViewSitemap2
 
-
+sitemaps = {
+    "static" : StaticViewSitemap,
+    "dynamic" : DynamicViewSitemap,
+    "static2" : StaticViewSitemap2,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("root.urls")),
     path("services/", include("services.urls")),
     path("accounts/", include("accounts.urls")),
-    
+    path('robots.txt', include('robots.urls')),
+    path('captcha/', include('captcha.urls')),
+    path(
+    "sitemap.xml",
+    sitemap,
+    {"sitemaps": sitemaps},
+    name="django.contrib.sitemaps.views.sitemap",
+)
 ]
 
 

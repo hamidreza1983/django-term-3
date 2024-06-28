@@ -16,15 +16,21 @@ def login_user(request):
         }
         return render(request, 'registrations/login.html', context=context)
     else:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('/')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                messages.add_message(request, messages.ERROR, 'input data is not valid')
+                return redirect('accounts:login')
         else:
             messages.add_message(request, messages.ERROR, 'input data is not valid')
             return redirect('accounts:login')
+
 
     
 
@@ -138,7 +144,7 @@ def reset_password_complete(request):
     return render(request, 'registrations/reset_password_complete.html')
 
 def edit_profile(request, id):
-    #if request.user.is_authenticated:
+    if request.user.is_authenticated:
         user = get_object_or_404(User, id=id)
         if request.method == "POST":
             form = EditprofileForm(request.POST,request.FILES, instance=user)
@@ -151,3 +157,5 @@ def edit_profile(request, id):
                 'form' : form
             }
             return render(request, 'registrations/edit_profile.html', context=context)
+    else:
+        return redirect('accounts:login')
