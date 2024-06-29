@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from captcha.fields import CaptchaField
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Invisible
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -8,7 +10,7 @@ User = get_user_model()
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=25)
     password = forms.CharField(max_length=20, widget=forms.PasswordInput)
-    captcha = CaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
 
 class RegisterForm(UserCreationForm):
