@@ -42,14 +42,8 @@ def logout_user(request):
 def signup_user(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.add_message(request, messages.SUCCESS, 'your account was created successfully')
-            return redirect('/')
-        else:
-            messages.add_message(request, messages.ERROR, 'your data is not valid')
-            return redirect('accounts:signup')
+        form.save()
+        return redirect('/')
     else:
         form = RegisterForm()
         context = {

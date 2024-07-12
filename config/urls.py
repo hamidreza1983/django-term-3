@@ -33,7 +33,6 @@ urlpatterns = [
     path("services/", include("services.urls")),
     path("accounts/", include("accounts.urls")),
     path('robots.txt', include('robots.urls')),
-    path('captcha/', include('captcha.urls')),
     path(
     "sitemap.xml",
     sitemap,

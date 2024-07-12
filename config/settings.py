@@ -45,13 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'robots',
-    'captcha',
-    'django_recaptcha',
 ]
-SITE_ID = 2
-
-RECAPTCHA_PUBLIC_KEY = '6Le6NgQqAAAAALer1FLdB5xCZazfgvBgQRBgTk68'
-RECAPTCHA_PRIVATE_KEY = '6Le6NgQqAAAAADOezw4wQJPcOle1aISGQjH3HTSt'
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
