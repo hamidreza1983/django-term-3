@@ -42,8 +42,13 @@ def logout_user(request):
 def signup_user(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        form.save()
-        return redirect('/')
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.add_message(request, messages.ERROR, 'Registration failed')
+            return redirect(request.path_info)
     else:
         form = RegisterForm()
         context = {
@@ -91,7 +96,6 @@ from rest_framework.authtoken.models import Token
 
 def reset_password(request):
     if request.method == 'POST':
-        try:
             user = User.objects.get(email=request.POST.get('email'))
             token, create = Token.objects.get_or_create(user=user)
             send_mail(
@@ -101,9 +105,9 @@ def reset_password(request):
                 recipient_list=[user.email],
                 fail_silently=True,
             )
+#            return redirect('accounts:reset_password_done')
+#        except:
             return redirect('accounts:reset_password_done')
-        except:
-            return redirect('accounts:reset_password')
 
     else:
         form = ResetPasswordForm()
