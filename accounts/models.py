@@ -17,6 +17,5 @@ class CustomeUser(AbstractUser):
 #    is_staff = models.BooleanField(default=False)
 #    is_superuser = models.BooleanField(default=False)
 #    is_verfied = models.BooleanField(default=False)
-    
 
 
