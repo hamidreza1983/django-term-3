@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from accounts.models import Profile
 User = get_user_model()
 
 
@@ -28,7 +29,7 @@ class Skills(models.Model):
 
 class Team(models.Model):
     image = models.ImageField(upload_to='services', default='default.jpg')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(User, on_delete=models.CASCADE)
     skills = models.ManyToManyField(Skills)
     description = models.TextField()
     status = models.BooleanField(default=False)
@@ -40,7 +41,7 @@ class Team(models.Model):
 
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
     
 
     def truncate_char(self):

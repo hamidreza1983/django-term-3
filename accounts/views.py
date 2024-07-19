@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
+from .models import Profile
 User = get_user_model()
 
 def login_user(request):
@@ -18,9 +19,9 @@ def login_user(request):
     else:
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = request.POST.get('username')
+            email = request.POST.get('email')
             password = request.POST.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('/')
