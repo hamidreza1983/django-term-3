@@ -41,7 +41,7 @@ class Team(models.Model):
 
 
     def __str__(self):
-        return self.user.email
+        return self.profile.email
     
 
     def truncate_char(self):

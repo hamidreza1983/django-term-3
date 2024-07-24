@@ -15,7 +15,7 @@ class ServiceView(ListView):
     template_name = 'services/services.html'
     context_object_name = 'services'
     # queryset = Services.objects.filter(status=True)
-    paginate_by = 2
+    #paginate_by = 2
 
     def get_queryset(self):
 
