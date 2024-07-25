@@ -44,8 +44,8 @@ class Team(models.Model):
         return self.profile.email
     
 
-    def truncate_char(self):
-        return str(self.description)[:10]
+    # def truncate_char(self):
+    #     return str(self.description)[:10]
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
