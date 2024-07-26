@@ -72,7 +72,7 @@
               <div class="card-img">
                 <img src={{service.image.url}} alt="" class="img-fluid">
               </div>
-              <h3><a href={% url 'services:services-detail' id=service.id %}>{{service.name}}</a></h3>
+              <h3><a href={% url 'services:services-detail' pk=service.id %}>{{service.name}}</a></h3>
               <p>{{service.content}}</p>
               <p><a href={% url 'services:list_by_price' price=service.price %}>price : {{service.price|intcomma}}</a></p>
               {% comment %} <p><a href={% url 'services:services' %}?price={{service.price}}>price : {{service.price}}</a></p> {% endcomment %}

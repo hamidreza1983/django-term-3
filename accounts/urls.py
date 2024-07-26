@@ -4,9 +4,10 @@ from .views import *
 app_name = "accounts"
 
 urlpatterns = [
-    path('login/', login_user, name='login'),
+    #path('login/', login_user, name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
-    path('signup/', signup_user, name='signup'),
+    path('signup/', SignupView.as_view(), name='signup'),
     path('change_password/', change_password, name='change_password'),
     path('reset_password/', reset_password, name='reset_password'),
     path('reset_password_done/', reset_password_done, name='reset_password_done'),
