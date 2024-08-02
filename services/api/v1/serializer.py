@@ -14,4 +14,11 @@ class ServiceSerializer(serializers.ModelSerializer):
     
     class Meta : 
         model = Services
+        fields = ['name', 'content', 'title', 'description', 'price']
+
+
+class ServiceDetailSerializer(serializers.ModelSerializer):
+    
+    class Meta : 
+        model = Services
         fields = "__all__"
