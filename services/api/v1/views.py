@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from services.models import Services, Team
-from .serializer import ServiceSerializer, TeamSerializer
+from services.models import Services, Team, Comments
+from .serializer import ServiceSerializer, TeamSerializer, CommentsSerializer
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -9,13 +9,20 @@ from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework import viewsets
+from .permissions import IsAdminOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 
 class ServicesApiViewSet(viewsets.ModelViewSet):
        
     serializer_class = ServiceSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['category', 'name']
+    search_fields = ['price']
+    ordering_fields = ['created_at']
 
     def get_queryset(self):
        return Services.objects.all()
@@ -24,10 +31,19 @@ class ServicesApiViewSet(viewsets.ModelViewSet):
 class TeamApiViewSet(viewsets.ModelViewSet):
     
     serializer_class = TeamSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get_queryset(self):
        return Team.objects.all()
+    
+
+class CommentApiViewSet(viewsets.ModelViewSet):
+    
+    serializer_class = CommentsSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+       return Comments.objects.all()
 
 
 

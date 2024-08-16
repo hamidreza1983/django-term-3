@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from services.models import Services, Team, Category, Skills
-from ...models import Category, Options
+from ...models import Category, Options, Comments
 
 # class ServiceSerializer(serializers.Serializer):
 
@@ -73,6 +73,23 @@ class ServiceSerializer(serializers.ModelSerializer):
         return rep
 
 
+class CommentsSerializer(serializers.ModelSerializer):
+    
+    class Meta : 
+        model = Comments
+        fields = ["product_name", "message", "user"]
+        read_only_fields = ["user"]
 
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        user = request.user
+        validated_data["user"] = user
+        return super().create(validated_data)
+    
+    def to_representation(self, instance):
+        rep =  super().to_representation(instance)
+        rep["user"] = self.context.get("request").user.email
+        return rep
 
 
