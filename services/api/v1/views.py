@@ -12,6 +12,7 @@ from rest_framework import viewsets
 from .permissions import IsAdminOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.exceptions import MethodNotAllowed
 
 
 
