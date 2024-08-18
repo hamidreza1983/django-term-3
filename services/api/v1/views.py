@@ -45,6 +45,14 @@ class CommentApiViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
        return Comments.objects.all()
 
+    def destroy(self, request, *args, **kwargs):
+        comment = get_object_or_404(Comments, id=kwargs.get('pk'))
+        if comment.user == request.user:
+            comment.delete()
+            return Response("service deleted successfully", status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise MethodNotAllowed("DELETE")
+
 
 
 
