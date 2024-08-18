@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from services.models import Services, Team, Category, Skills
 from ...models import Category, Options, Comments
+from rest_framework.exceptions import MethodNotAllowed
 
 # class ServiceSerializer(serializers.Serializer):
 
@@ -86,10 +87,17 @@ class CommentsSerializer(serializers.ModelSerializer):
         user = request.user
         validated_data["user"] = user
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+            request = self.context.get("request")
+            if request.user == instance.user:
+                return super().update(instance, validated_data)
+            else:
+                raise MethodNotAllowed("Update")
     
-    def to_representation(self, instance):
-        rep =  super().to_representation(instance)
-        rep["user"] = self.context.get("request").user.email
-        return rep
+#    def to_representation(self, instance):
+#       rep =  super().to_representation(instance)
+#        rep["user"] = self.context.get("request").user.email
+#        return rep
 
 
