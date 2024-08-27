@@ -3,6 +3,19 @@ from ...models import CustomUser
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    def validate(self, attrs):
+        validate_data = super().validate(attrs)
+        validate_data['user'] = self.user.id
+        validate_data['email'] = self.user.email
+
+        return validate_data
+        
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(max_length=100)
@@ -35,7 +48,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('password1')
         return CustomUser.objects.create_user(**validated_data)
-    
+
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):

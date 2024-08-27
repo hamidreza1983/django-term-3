@@ -9,6 +9,7 @@ django-recaptcha==4.0.0
 django-robots==6.1
 django-simple-captcha==0.6.0
 djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.7
 idna==3.7
 importlib_resources==6.4.2
@@ -18,6 +19,7 @@ jsonschema-specifications==2023.12.1
 Markdown==3.6
 packaging==24.1
 pillow==10.3.0
+PyJWT==2.9.0
 pytz==2024.1
 PyYAML==6.0.2
 referencing==0.35.1
