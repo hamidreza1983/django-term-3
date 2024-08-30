@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
+from rest_framework.authtoken.models import Token
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -87,3 +87,51 @@ class CustomAuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+    
+
+class ChangePasswordSerializer(serializers.Serializer):
+
+    old_pass = serializers.CharField(max_length=30)
+    new_pass1 = serializers.CharField(max_length=30)
+    new_pass2 = serializers.CharField(max_length=30)
+
+    def validate(self, attrs):
+        pass1 = attrs.get("new_pass1")
+        pass2 = attrs.get("new_pass2")
+
+        if pass1 != pass2:
+            msg = ('pass1 and pass2 must be the same')
+            raise serializers.ValidationError(msg, code='authorization')
+
+        return super().validate(attrs)
+    
+
+    def old_password_check(self, attrs, request):
+        old_pass = attrs.get("old_pass")
+        user = request.user
+
+        if not user.check_password(old_pass):
+            msg = ('Old pass doesnt match')
+            raise serializers.ValidationError(msg, code='authorization')
+        return attrs
+    
+    def new_password_set(self, attrs, request):
+        pass1 = attrs.get("new_pass1")
+        user = request.user
+        try:
+            validate_password(pass1)
+
+        except:
+            raise serializers.ValidationError ({
+                'detail' : "validate password fail..."
+            })
+        
+        user.set_password(pass1)
+        return attrs
+    
+    def delete_old_token_and_create_new(self, attrs, request):
+        user = request.user
+        user.auth_token.delete()
+        token = Token.objects.create(user=user)
+        return token
+
