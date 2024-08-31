@@ -5,6 +5,8 @@ from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.authtoken.models import Token
+from django.core import exceptions
+
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -121,12 +123,13 @@ class ChangePasswordSerializer(serializers.Serializer):
         try:
             validate_password(pass1)
 
-        except:
-            raise serializers.ValidationError ({
-                'detail' : "validate password fail..."
-            })
-        
+        except exceptions.ValidationError as e:
+            raise serializers.ValidationError({
+                'detail' : list(e.messages)
+                })
+
         user.set_password(pass1)
+        user.save()
         return attrs
     
     def delete_old_token_and_create_new(self, attrs, request):
