@@ -1,11 +1,12 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentsForm
 from django.contrib import messages
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, RedirectView
 
 # Create your views here.
 
@@ -14,6 +15,7 @@ from django.views.generic import ListView
 class ServiceView(ListView):
     template_name = 'services/services.html'
     context_object_name = 'services'
+    paginate_by = 2
     # queryset = Services.objects.filter(status=True)
     #paginate_by = 2
 
@@ -28,6 +30,21 @@ class ServiceView(ListView):
 
 
 
+class GoogleView(RedirectView):
+    url = "https://google.com"
+
+class ServiceDetaiView(DetailView):
+    model = Services
+    template_name = 'services/service-details.html'
+    context_object_name = 'detail'
+
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        service = Services.objects.get(pk=self.kwargs.get("pk"))
+        commnets = Comments.objects.filter(product_name=service.name, status=True)
+        context ['comments'] = commnets
+        return context
 
 
 # def services(request, **kwargs):
@@ -57,12 +74,7 @@ class ServiceView(ListView):
 #         all_services = all_services.get_page(1)
 #     except EmptyPage:
 #          all_services = all_services.get_page(1)
-
-
-
-
-#     context = {
-#             "services": all_services,
+#Comments.objects.filter(product_name=service.name, status=True)
 #             "specials": SpecialService.objects.filter(status=True),
 #             'last_page': last_page,
 #         }
@@ -70,29 +82,29 @@ class ServiceView(ListView):
 
 
 
-def services_detail(request, id):
-    #service = Services.objects.get(id=id)
+# def services_detail(request, id):
+#     #service = Services.objects.get(id=id)
 
-    #service = get_object_or_404(Services, id=id)
+#     #service = get_object_or_404(Services, id=id)
 
-    try:
-        service = Services.objects.get(id=id)
-        comments = Comments.objects.filter(product_name=service.name, status=True)
-        service.counted_view += 1
-        service.save()
-        context = {
-            'detail':service,
-            'comments': comments,
-        }
-        return render(request, 'services/service-details.html', context = context)
+#     try:
+#         service = Services.objects.get(id=id)
+#         comments = Comments.objects.filter(product_name=service.name, status=True)
+#         service.counted_view += 1
+#         service.save()
+#         context = {
+#             'detail':service,
+#             'comments': comments,
+#         }
+#         return render(request, 'services/service-details.html', context = context)
     
-    except:
-        return render(request, 'services/404.html')
+#     except:
+#         return render(request, 'services/404.html')
 
 
 def qoute(request):
     if request.method == 'POST':
-        if request.user.is_authenticated:
+        #if request.user.is_authenticated:
             form = CommentsForm(request.POST)
             if form.is_valid():
                 form.save()
@@ -101,8 +113,8 @@ def qoute(request):
             else:
                 messages.add_message(request, messages.ERROR, 'your input data may be incorrect')
                 return redirect(request.path_info)
-        else:
-            return redirect('accounts:login')
+        # else:
+        #     return redirect('accounts:login')
     else:
         return render(request, 'services/get-a-quote.html')
     

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm, RegisterForm, ChangePasswordForm, ResetPasswordForm, ResetPasswordConfirm, EditprofileForm
 from django.contrib.auth import login, logout, authenticate, password_validation
@@ -7,31 +8,49 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from .models import Profile
+from django.views.generic import FormView, CreateView
 User = get_user_model()
 
-def login_user(request):
-    if request.method == 'GET':
-        form = LoginForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'registrations/login.html', context=context)
-    else:
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-            user = authenticate(username=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('/')
-            else:
-                messages.add_message(request, messages.ERROR, 'input data is not valid')
-                return redirect('accounts:login')
-        else:
-            messages.add_message(request, messages.ERROR, 'input data is not valid')
-            return redirect('accounts:login')
+# def login_user(request):
+#     if request.method == 'GET':
+#         form = LoginForm()
+#         context = {
+#             'form': form,
+#         }
+#         return render(request, 'registrations/login.html', context=context)
+#     else:
+#         form = LoginForm(request.POST)
+#         if form.is_valid():
+#             email = request.POST.get('email')
+#             password = request.POST.get('password')
+#             user = authenticate(username=email, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect('/')
+#             else:
+#                 messages.add_message(request, messages.ERROR, 'input data is not valid')
+#                 return redirect('accounts:login')
+#         else:
+#             messages.add_message(request, messages.ERROR, 'input data is not valid')
+#             return redirect('accounts:login')
 
+class LoginView(FormView):
+    template_name = 'registrations/login.html'
+    form_class = LoginForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        email = self.request.POST.get('email')
+        password = self.request.POST.get('password')
+        user = authenticate(username = email, password=password)
+        if user is not None:
+            login(self.request, user)
+            return super().form_valid(form)
+        
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, 'input data is not valid')
+        return redirect('accounts:login')
+        
 
     
 
@@ -40,22 +59,38 @@ def logout_user(request):
     logout(request)
     return redirect('/')
 
-def signup_user(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('/')
-        else:
-            messages.add_message(request, messages.ERROR, 'Registration failed')
-            return redirect(request.path_info)
-    else:
-        form = RegisterForm()
-        context = {
-            'form': form,
-            }
-        return render(request, 'registrations/signup.html', context=context)
+# def signup_user(request):
+#     if request.method == 'POST':
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             login(request, user)
+#             return redirect('/')
+#         else:
+#             messages.add_message(request, messages.ERROR, 'Registration failed')
+#             return redirect(request.path_info)
+#     else:
+#         form = RegisterForm()
+#         context = {
+#             'form': form,
+#             }
+#         return render(request, 'registrations/signup.html', context=context)
+
+class SignupView(CreateView):
+    template_name = 'registrations/signup.html'
+    form_class = RegisterForm
+    success_url = "/accounts/login"
+
+    # def form_valid(self, form):
+    #     form.save()
+    #     return super().form_valid(form)
+        
+    # def form_invalid(self, form):
+    #     messages.add_message(self.request, messages.ERROR, 'input data is not valid')
+    #     return redirect('accounts:login')
+
+
+
 
 def change_password(request):
     if request.user.is_authenticated:

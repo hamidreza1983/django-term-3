@@ -1,6 +1,6 @@
 from typing import Any
 from django.shortcuts import render, redirect
-from services.models import SpecialService
+from services.models import SpecialService, Services
 from .models import FrequentlyQuestions, ContactUs
 from services.models import Team
 from .forms import ContactUsForm
@@ -8,7 +8,13 @@ from django.contrib import messages
 from django.views.generic import TemplateView
 
 
+
 from django.http import HttpRequest, HttpResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+
 
 
 # def home(request):

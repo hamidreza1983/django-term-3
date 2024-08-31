@@ -82,6 +82,7 @@ class Services(models.Model):
     
 
 class Comments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=100)
     message = models.TextField()
     status = models.BooleanField(default=False)
@@ -89,3 +90,4 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.product_name
+    
