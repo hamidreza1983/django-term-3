@@ -5,12 +5,19 @@ from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.authtoken.models import Token
+from django.core.exceptions import ValidationError as Valid
+from django.shortcuts import get_object_or_404
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         validate_data = super().validate(attrs)
+        user = get_object_or_404(CustomUser, email=attrs.get("email"))
+        if user.is_verified == False:
+            raise serializers.ValidationError(
+                "please verify your email"
+            )
         validate_data['user'] = self.user.id
         validate_data['email'] = self.user.email
 
@@ -109,6 +116,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     def old_password_check(self, attrs, request):
         old_pass = attrs.get("old_pass")
         user = request.user
+        print (user.password)
+
 
         if not user.check_password(old_pass):
             msg = ('Old pass doesnt match')
@@ -121,12 +130,13 @@ class ChangePasswordSerializer(serializers.Serializer):
         try:
             validate_password(pass1)
 
-        except:
+        except Valid as e:
             raise serializers.ValidationError ({
-                'detail' : "validate password fail..."
+                'detail' : list(e.messages)
             })
         
         user.set_password(pass1)
+        user.save()
         return attrs
     
     def delete_old_token_and_create_new(self, attrs, request):

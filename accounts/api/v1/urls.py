@@ -15,4 +15,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('change_password/', ChangePasswordView.as_view(), name='change_password'),
+    path('verify-mail/<str:token>', VerifyEmailView.as_view(), name='verify-email'),
+    
+   
 ]
