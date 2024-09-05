@@ -114,34 +114,3 @@ class VerifyEmailView(APIView):
             }
         )
     
-class ResendVerifyEmailView(GenericAPIView):
-    serializer_class = ResendEmailSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data["user"]
-            if not user.is_verified:
-                send_mail(
-                    "verify",
-                    f"http://127.0.0.1:8000/accounts/api/v1/verify-mail/{self.get_tokens_for_user(user)}",
-                    "admin@admin.com",
-                    [user.email]
-                )
-                return Response({
-                    'email message send for you',
-                })
-            else:
-                return Response({
-                    'your email is already verified',
-                })
-
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
-        
-
-    def get_tokens_for_user(self, user):
-        refresh = RefreshToken.for_user(user)
-
-        return str(refresh.access_token)
-    
