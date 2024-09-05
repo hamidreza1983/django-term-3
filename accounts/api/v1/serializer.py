@@ -145,3 +145,17 @@ class ChangePasswordSerializer(serializers.Serializer):
         token = Token.objects.create(user=user)
         return token
 
+class ResendEmailSerializer(serializers.Serializer):
+    email = serializers.CharField(
+        label=("email"),
+        write_only=True
+    )
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+        email = attrs.get('email')
+        user = get_object_or_404(CustomUser, email=email)
+        validated_data['user'] = user
+        return validated_data
+
+        
+        
