@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 app_name = "accounts"
@@ -14,4 +14,5 @@ urlpatterns = [
     path('reset_password_confirm/<str:token>/', reset_password_confirm, name='reset_password_confirm'),
     path('reset_password_complete/', reset_password_complete, name='reset_password_complete'),
     path('edit_profile/<int:id>', edit_profile, name='edit_profile'),
+    path('api/v1/', include('accounts.api.v1.urls')),
 ]

@@ -348,17 +348,17 @@
 
           </div>
         </div>
-        {% if services.has_next and services.has_previous %}
+        {% if page_obj.has_next and page_obj.has_previous %}
         <h5><a href='?page=1'><<</a>
-        <a href="?page={{services.previous_page_number}}"><</a>
-        <a href="?page={{services.next_page_number}}">></a>
+        <a href="?page={{page_obj.previous_page_number}}"><</a>
+        <a href="?page={{page_obj.next_page_number}}">></a>
         <a href="?page={{last_page}}">>></a> </h5>
-        {% elif services.has_next %}
-        <h5><a href="?page={{services.next_page_number}}">></a>
+        {% elif page_obj.has_next %}
+        <h5><a href="?page={{page_obj.next_page_number}}">></a>
         <a href="?page={{last_page}}">>></a> </h5>
-        {% elif services.has_previous %}
+        {% elif page_obj.has_previous %}
         <h5><a href='?page=1'><<</a>
-        <a href="?page={{services.previous_page_number}}"><</a></h5>
+        <a href="?page={{page_obj.previous_page_number}}"><</a></h5>
         {% endif %}
 
       </div>

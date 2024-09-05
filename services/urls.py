@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 from django.views.generic import RedirectView
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path('qoute/', qoute, name='qoute'),
     path("comment/edit/<int:id>", edit_comment, name='edit_comment'),
     path("adv", GoogleView.as_view(), name='adv1'),
+    path("api/v1/",include("services.api.v1.urls")),
 ]
