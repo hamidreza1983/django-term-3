@@ -1,5 +1,5 @@
 from rest_framework.generics import GenericAPIView
-from .serializer import RegistrationSerializer, CustomAuthTokenSerializer, CustomTokenObtainPairSerializer,ChangePasswordSerializer
+from .serializer import RegistrationSerializer, CustomAuthTokenSerializer, CustomTokenObtainPairSerializer,ChangePasswordSerializer, ResendEmailSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -12,7 +12,9 @@ from ...models import CustomUser
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.tokens import AccessToken
-
+from threading import Thread
+import time
+from mail_templated import send_mail
 
 
 class RegistrationView(GenericAPIView):
@@ -113,3 +115,45 @@ class VerifyEmailView(APIView):
                 "detail : your account has been verified"
             }
         )
+
+class ResendVerifyEmailView(GenericAPIView):
+    serializer_class = ResendEmailSerializer
+
+    # def send_mail_with_thread(self, subject:str, url:str, src:str, dest:list):
+    #                             time.sleep(5)
+    #                             send_mail(
+    #                                         subject,
+    #                                         url,
+    #                                         src,
+    #                                         dest,
+    #                                     )
+
+    def post (self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data["user"]
+            if not user.is_verified:
+                token = self.get_tokens_for_user(user)
+                send_mail('email/email-temp.html', {'token': token}, "admin@admin.com", [user.email])
+
+                # subject = "please verify your email"
+                # url = f"http://127.0.0.1:8000/accounts/api/v1/verify-mail/{self.get_tokens_for_user(user)}"
+                # src = "admin@admin.com"
+                # dest = [user.email]
+                # tr = Thread(target=self.send_mail_with_thread, args=(subject, url, src, dest))
+                # tr.start()
+                return Response({
+                    'email message Resend for you',
+                })
+            else:
+                return Response({
+                    'your email is already verified',
+                })
+
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+        
+
+    def get_tokens_for_user(self, user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
