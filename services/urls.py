@@ -15,4 +15,5 @@ urlpatterns = [
     path("comment/edit/<int:id>", edit_comment, name='edit_comment'),
     path("adv", GoogleView.as_view(), name='adv1'),
     path("api/v1/",include("services.api.v1.urls")),
+    #path("api/v2/",include("services.api.v2.urls")),
 ]

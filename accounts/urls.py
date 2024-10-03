@@ -15,4 +15,5 @@ urlpatterns = [
     path('reset_password_complete/', reset_password_complete, name='reset_password_complete'),
     path('edit_profile/<int:id>', edit_profile, name='edit_profile'),
     path('api/v1/', include('accounts.api.v1.urls')),
+    #path('api/v2/', include('djoser.urls')),
 ]
