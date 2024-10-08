@@ -1,12 +1,11 @@
-from typing import Any
-from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse
+
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentsForm
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, RedirectView
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -39,7 +38,7 @@ class ServiceDetaiView(DetailView):
     context_object_name = 'detail'
 
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         service = Services.objects.get(pk=self.kwargs.get("pk"))
         commnets = Comments.objects.filter(product_name=service.name, status=True)
@@ -101,10 +100,9 @@ class ServiceDetaiView(DetailView):
 #     except:
 #         return render(request, 'services/404.html')
 
-
 def qoute(request):
     if request.method == 'POST':
-        #if request.user.is_authenticated:
+        if request.user.is_authenticated:
             form = CommentsForm(request.POST)
             if form.is_valid():
                 form.save()
@@ -113,8 +111,8 @@ def qoute(request):
             else:
                 messages.add_message(request, messages.ERROR, 'your input data may be incorrect')
                 return redirect(request.path_info)
-        # else:
-        #     return redirect('accounts:login')
+        else:
+             return redirect('accounts:login')
     else:
         return render(request, 'services/get-a-quote.html')
     
