@@ -6,7 +6,7 @@ from services.models import Team
 from .forms import ContactUsForm
 from django.contrib import messages
 from django.views.generic import TemplateView
-
+from django.contrib.auth.decorators import login_required
 
 
 from django.http import HttpRequest, HttpResponse
@@ -27,7 +27,7 @@ from rest_framework.response import Response
     
 #     return render(request, 'root/index.html', context=context)
 
-
+@login_required
 def contact(request):
     if request.method == 'POST':
         form = ContactUsForm(request.POST)
