@@ -14,5 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Test OutPut
-      run: false
+    - name: Start Docker File
+      run: docker compose up --build
+    - name: Start Test
+      run: docker exec django-drf sh -c "python manage.py test ."
+      
