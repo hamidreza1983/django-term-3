@@ -76,11 +76,14 @@ class TestUrl(TestCase):
         response = c.get(url)
         self.assertTemplateUsed(response, template_name="root/index.html")
 
-    # def test_template_content_home(self):
-    #     url = reverse("root:home")
-    #     c = Client()
-    #     response = c.get(url)
-    #     self.assertEqual()
+    def test_template_content_home(self):
+        url = reverse("root:home")
+        c = Client()
+        response = c.get(url)
+        if "totam" not in str(response.content):
+            raise AssertionError("content may be change")
+        
+
     def test_response_contact_302(self):
         url = reverse("root:contact")
         c = Client()
