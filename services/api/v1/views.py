@@ -16,12 +16,12 @@ from .paginate import Custompagination
 class ServicesApiViewSet(viewsets.ModelViewSet):
        
     serializer_class = ServiceSerializer
-    permission_classes = [IsAdminUser]
+    #permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['category', 'name']
     search_fields = ['price']
     ordering_fields = ['created_at']
-    pagination_class = Custompagination
+    #pagination_class = Custompagination
 
 
     def get_queryset(self):

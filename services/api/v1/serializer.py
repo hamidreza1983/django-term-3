@@ -34,26 +34,26 @@ class SkillsSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
 
     #name = serializers.ReadOnlyField()
-    name = serializers.SerializerMethodField(method_name="cat_name")
-    created_at = serializers.SerializerMethodField(method_name="year")
+    #name = serializers.SerializerMethodField(method_name="cat_name")
+    #created_at = serializers.SerializerMethodField(method_name="year")
     # category = serializers.SlugRelatedField(many=True, queryset=Category.objects.all(),slug_field="title")
     # generals = serializers.SlugRelatedField(many=True, queryset=Options.objects.all(), slug_field="title")
-    detail_link = serializers.SerializerMethodField(method_name="detail")
+    #detail_link = serializers.SerializerMethodField(method_name="detail")
     
     class Meta : 
         model = Services
-        fields = ['name', 'content', 'title', 'description', 'price', 'category', "generals", "created_at", "detail_link"]
-        read_only_fields = ["name"]
+        fields = ['id', 'name', 'content', 'title', 'description', 'price', 'category', "generals"]
+        #read_only_fields = ["name"]
 
-    def cat_name(self, instanse):
-        return str(instanse.name).upper()
+    # def cat_name(self, instanse):
+    #     return str(instanse.name).upper()
     
-    def year(self, instanse):
-        return (str(instanse.created_at).split("-"))[0]
+    # def year(self, instanse):
+    #     return (str(instanse.created_at).split("-"))[0]
     
-    def detail(self, obj):
-        request = self.context.get("request")
-        return request.build_absolute_uri(obj.id)
+    # def detail(self, obj):
+    #     request = self.context.get("request")
+    #     return request.build_absolute_uri(obj.id)
     
 
     # def to_representation(self, instance):
