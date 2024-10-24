@@ -41,4 +41,4 @@ class TestApi:
 
     def test_view_team(self, client, api_url_team):
         response = client.get(api_url_team)
-        assert response.status_code == 201
+        assert response.status_code == 200
