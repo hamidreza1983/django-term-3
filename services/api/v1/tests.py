@@ -1,5 +1,6 @@
 from rest_framework.test import APIClient
-import pytest
+import pytest, json
+from django.urls import reverse
 
 
 @pytest.fixture
@@ -17,6 +18,12 @@ def api_url_team():
     url = "http://127.0.0.1:8000/services/api/v1/team"
     return url
 
+@pytest.fixture
+def api_url_detail_services():
+    url = "http://127.0.0.1:8000/services/api/v1/services/1"
+    return url
+
+
 @pytest.mark.django_db
 class TestApi:
 
@@ -24,20 +31,29 @@ class TestApi:
         response = client.get(api_url_services)
         assert response.status_code == 200
 
-    # def test_create_object_on_services(self):
-    #     data = {
-    #         "name" : "testsdcfgbsfgdb",
-    #         "title" : "test",
-    #         "content" : "test",
-    #         "description" : "test",
-    #         "price" : 2000,
-    #         "generals" : ["best price",],
-    #         "category" : ["travel",],
-    #     }
-    #     c = APIClient()
-    #     url = "http://127.0.0.1:8000/services/api/v1/services"
-    #     response = c.post(url, data=data)
-    #     assert response.status_code == 201
+    def test_post_services(self, client, api_url_services):
+        url = api_url_services
+        data = {
+                "name": "q22",
+                "content": "w22",
+                "title": "e22",
+                "description": "d22",
+                "price": 200
+            }
+        response = client.post(url, data)
+        assert response.status_code == 201
+
+    def test_view_detail_services(self, client, api_url_detail_services, api_url_services):
+        data = {
+                "name": "q2",
+                "content": "w2",
+                "title": "e2",
+                "description": "d2",
+                "price": 200
+            }
+        client.post(api_url_services, data)
+        response = client.get(api_url_detail_services)
+        assert response.status_code == 200
 
     def test_view_team(self, client, api_url_team):
         response = client.get(api_url_team)
