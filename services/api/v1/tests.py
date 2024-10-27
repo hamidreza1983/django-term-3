@@ -39,12 +39,6 @@ def normal_user():
     user = CustomUser.objects.create_user(email="user@test.com", password="H@midreza62")
     return user
 
-@pytest.fixture
-def category_object():
-    Category.objects.create(title="test", status=True)
-    Category.objects.create(title="test2", status=True)
-    category = Category.objects.all()
-    return category
 
 @pytest.fixture
 def skills_object():
