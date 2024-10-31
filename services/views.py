@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 class ServiceView(ListView):
     template_name = 'services/services.html'
     context_object_name = 'services'
-    paginate_by = 2
+    paginate_by = 100
     # queryset = Services.objects.filter(status=True)
     #paginate_by = 2
 
@@ -114,6 +114,7 @@ def qoute(request):
         else:
              return redirect('accounts:login')
     else:
+        print (request.session)
         return render(request, 'services/get-a-quote.html')
     
 def edit_comment(request, id):
