@@ -42,7 +42,7 @@ class ServiceSerializer(serializers.ModelSerializer):
     
     class Meta : 
         model = Services
-        fields = ['name', 'content', 'title', 'description', "price"]
+        fields = ['name', 'content', 'title', 'description', "price", "image"]
         #read_only_fields = ["name"]
 
     # def cat_name(self, instanse):
