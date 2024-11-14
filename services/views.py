@@ -99,8 +99,9 @@ class ServiceDetaiView(DetailView):
     
 #     except:
 #         return render(request, 'services/404.html')
-
+from accounts.api.v1.tasks import test
 def qoute(request):
+    test.delay()
     if request.method == 'POST':
         if request.user.is_authenticated:
             form = CommentsForm(request.POST)

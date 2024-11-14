@@ -9,6 +9,26 @@ services:
      - 8000:8000
     volumes:
      - .:/core
+    depends_on:
+      - redis
+
+  worker:
+    build: .
+    command: celery -A config worker -l INFO
+    volumes:
+     - .:/core
+    depends_on:
+      - redis
+      - backend
+
+  
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
 
   smtp4dev:
     image: rnwood/smtp4dev:v3

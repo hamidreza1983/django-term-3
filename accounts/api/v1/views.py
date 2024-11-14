@@ -28,6 +28,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from threading import Thread
 import time
 from mail_templated import send_mail
+from accounts.api.v1.tasks import test
 
 
 class RegistrationView(GenericAPIView):

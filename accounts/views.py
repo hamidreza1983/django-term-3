@@ -118,7 +118,7 @@ def change_password(request):
                         messages.add_message(request, messages.ERROR, 'your new passwords are not same')
                         return redirect('accounts:change_password')
                 else:
-                    message123s.add_message(request, messages.ERROR, 'your old password is not valid')
+                    messages.add_message(request, messages.ERROR, 'your old password is not valid')
                     return redirect('accounts:change_password')
 
         else:

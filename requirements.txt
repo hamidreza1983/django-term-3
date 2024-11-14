@@ -62,3 +62,7 @@ tzdata==2024.1
 uritemplate==4.1.1
 urllib3==2.2.1
 wheel==0.43.0
+celery
+django-celery
+django-redis
+SQLAlchemy
