@@ -20,15 +20,13 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.core.mail import send_mail
 from ...models import CustomUser
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.tokens import AccessToken
 from threading import Thread
 import time
-from mail_templated import send_mail
-from accounts.api.v1.tasks import test
+from accounts.api.v1.tasks import send_email
 
 
 class RegistrationView(GenericAPIView):
@@ -41,9 +39,9 @@ class RegistrationView(GenericAPIView):
             email = serializer.validated_data["email"]
             user = get_object_or_404(CustomUser, email=email)
             if not user.is_verified:
-                send_mail(
-                    "verify",
-                    f"http://127.0.0.1:8000/accounts/api/v1/verify-mail/{self.get_tokens_for_user(user)}",
+                send_email(
+                    "email/email.html",
+                    {"verify":f"http://127.0.0.1:8000/accounts/api/v1/verify-mail/{self.get_tokens_for_user(user)}"},
                     "admin@admin.com",
                     [email],
                 )
@@ -159,8 +157,8 @@ class ResendVerifyEmailView(GenericAPIView):
             user = serializer.validated_data["user"]
             if not user.is_verified:
                 token = self.get_tokens_for_user(user)
-                send_mail(
-                    "email/email-temp.html",
+                send_email(
+                    "email/email.html",
                     {"token": token},
                     "admin@admin.com",
                     [user.email],

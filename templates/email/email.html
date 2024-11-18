@@ -5,6 +5,5 @@ Hello {{ user.name }}
 {% endblock %}
 
 {% block html %}
-<a href="http://127.0.0.1:8000/accounts/api/v1/verify-mail/{{token}}">verify email</a>
-This is an <strong>html</strong> message.
+This is an <strong>{{ verify }}</strong> message.
 {% endblock %}
