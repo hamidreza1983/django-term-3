@@ -182,3 +182,29 @@ REST_FRAMEWORK = {
 
 CELERY_BROKER_URL = 'redis://redis:6379/1'
 CELERY_RESULT_BACKEND = "db+sqlite:///results.sqlite"
+
+# CELERY_BEAT_SCHEDULE = {
+#     'clear_user' : {
+#         'task' : 'accounts.api.v1.tasks.clean_user',
+#         'schedule' : 60
+#     },
+#     'adv_text' : {
+#         'task' : 'accounts.api.v1.tasks.send_adv',
+#         'schedule' : 20,
+        # 'args' : (1, ),
+        # 'kwargs' : {'name' : 'hamidreza'}
+#     }
+
+# }
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/2',  # Use the appropriate Redis server URL
+        #'TIMEOUT' : 600,
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}

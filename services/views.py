@@ -45,7 +45,7 @@ class ServiceDetaiView(DetailView):
         context ['comments'] = commnets
         return context
 
-
+# from django.core.cache import cache
 # def services(request, **kwargs):
 # #    if request.GET.get('category') is not None:
 # #        all_service = Services.objects.filter(category__title=request.GET.get('category'))
@@ -62,7 +62,13 @@ class ServiceDetaiView(DetailView):
 #         all_service = Services.objects.filter(price__lte=kwargs.get('price'))
 
 #     else:
-#         all_service = Services.objects.filter(status=True)
+#         if cache.get("all_services") is None:
+#             all_service = Services.objects.filter(status=True)
+#             cache.set("all_services", all_service)
+        
+#         all_service = cache.get("all_services")
+
+
 
 #     all_services = Paginator(all_service,2)
 #     last_page = all_services.num_pages
@@ -73,7 +79,7 @@ class ServiceDetaiView(DetailView):
 #         all_services = all_services.get_page(1)
 #     except EmptyPage:
 #          all_services = all_services.get_page(1)
-#Comments.objects.filter(product_name=service.name, status=True)
+# Comments.objects.filter(product_name=service.name, status=True)
 #             "specials": SpecialService.objects.filter(status=True),
 #             'last_page': last_page,
 #         }

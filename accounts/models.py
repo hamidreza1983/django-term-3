@@ -64,4 +64,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+
+
+
+
+class Advertisement(models.Model):
+    text = models.TextField()
+
+    def __str__(self):
+        return str(self.id)
 

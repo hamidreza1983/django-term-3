@@ -17,6 +17,7 @@ urlpatterns = [
     path('change_password/', ChangePasswordView.as_view(), name='change_password'),
     path('verify-mail/<str:token>', VerifyEmailView.as_view(), name='verify-email'),
     path('verify-email/resend', ResendVerifyEmailView.as_view(), name='resend-verify-email'),
+    path('test/', TestView.as_view()),
     
    
 ]

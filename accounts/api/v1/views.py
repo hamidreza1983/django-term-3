@@ -1,3 +1,5 @@
+from django.http import HttpRequest
+from django.http.response import HttpResponse as HttpResponse
 from rest_framework.generics import GenericAPIView
 from .serializer import (
     RegistrationSerializer,
@@ -28,6 +30,24 @@ from threading import Thread
 import time
 from accounts.api.v1.tasks import send_email
 
+import requests
+from django.views.generic import TemplateView
+from django.http import JsonResponse
+from django.core.cache import cache
+
+class TestView(TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        
+        if cache.get("data") is None:
+            response = requests.get("https://fca68fae-53f2-4bfb-bb60-dfac1521ce06.mock.pstmn.io/test")
+            cache.set("data", response.json())
+        data = cache.get("data")
+        return JsonResponse(data)
+
+
+
+
 
 class RegistrationView(GenericAPIView):
     serializer_class = RegistrationSerializer
@@ -39,7 +59,7 @@ class RegistrationView(GenericAPIView):
             email = serializer.validated_data["email"]
             user = get_object_or_404(CustomUser, email=email)
             if not user.is_verified:
-                send_email(
+                send_email.delay(
                     "email/email.html",
                     {"verify":f"http://127.0.0.1:8000/accounts/api/v1/verify-mail/{self.get_tokens_for_user(user)}"},
                     "admin@admin.com",

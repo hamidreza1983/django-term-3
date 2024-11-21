@@ -26,8 +26,9 @@ from rest_framework.response import Response
 #         }
     
 #     return render(request, 'root/index.html', context=context)
+from django.views.decorators.cache import cache_page
 
-@login_required
+@cache_page(600)
 def contact(request):
     if request.method == 'POST':
         form = ContactUsForm(request.POST)
