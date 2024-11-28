@@ -96,10 +96,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "djano.db.backend.postgresql",
+        "NAME": "postgres",
+        "USER" : "django",
+        "PASSWORD": "Hamidreza62",
+        "HOST": "posg",
+        "PORT": "5432"
     }
 }
 
@@ -181,7 +193,7 @@ REST_FRAMEWORK = {
 }
 
 CELERY_BROKER_URL = 'redis://redis:6379/1'
-CELERY_RESULT_BACKEND = "db+sqlite:///results.sqlite"
+CELERY_RESULT_BACKEND = "db+postgresql://django:Hamidreza62@posg/postgres"
 
 # CELERY_BEAT_SCHEDULE = {
 #     'clear_user' : {
