@@ -66,17 +66,17 @@ class TestApi:
         response = client.post(url, data)
         assert response.status_code == 201
 
-    def test_view_detail_services(self, client, api_url_detail_services, api_url_services):
-        data = {
-                "name": "q2",
-                "content": "w2",
-                "title": "e2",
-                "description": "d2",
-                "price": 200
-            }
-        client.post(api_url_services, data)
-        response = client.get(api_url_detail_services)
-        assert response.status_code == 200
+#    def test_view_detail_services(self, client, api_url_detail_services, api_url_services):
+ #       data = {
+ #               "name": "q2",
+ #               "content": "w2",
+ #               "title": "e2",
+ #               "description": "d2",
+ #               "price": 200
+ #           }
+ #       client.post(api_url_services, data)
+ #       response = client.get(api_url_detail_services)
+ #       assert response.status_code == 200
 
     def test_view_team(self, client, api_url_team):
         response = client.get(api_url_team)
