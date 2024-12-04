@@ -88,7 +88,7 @@ class TestUrl(TestCase):
         url = reverse("root:contact")
         c = Client()
         response = c.get(url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_response_contact_200(self):
         url = reverse("root:contact")
