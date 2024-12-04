@@ -105,15 +105,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "djano.db.backend.postgresql",
-        "NAME": "postgres",
-        "USER" : "django",
-        "PASSWORD": "Hamidreza62",
-        "HOST": "posg",
-        "PORT": "5432"
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'mypassword',
+        'HOST': 'posg',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -193,7 +194,7 @@ REST_FRAMEWORK = {
 }
 
 CELERY_BROKER_URL = 'redis://redis:6379/1'
-CELERY_RESULT_BACKEND = "db+postgresql://django:Hamidreza62@posg/postgres"
+CELERY_RESULT_BACKEND = "db+postgresql://postgres:mypassword@posg/postgres"
 
 # CELERY_BEAT_SCHEDULE = {
 #     'clear_user' : {
