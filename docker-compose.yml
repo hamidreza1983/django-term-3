@@ -56,17 +56,18 @@ services:
       - ./locust:/mnt/locust
     command: -f /mnt/locust/locustfile.py --worker --master-host master
 
-  db:
+  postgres:
     image: postgres:14-alpine
     container_name: posg
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - ~/apps/postgres:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=django
-      - POSTGRES_PASSWORD=Hamidreza62
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
+
 
 
 volumes:
