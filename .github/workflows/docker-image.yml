@@ -36,7 +36,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: "22"
         script:
-          cd /home/hamid/Desktop/django-term-3
+          cd /home/${{ secrets.USERNAME }}/Desktop/django-term-3
           docker compose -f docker-compose-product.yaml stop
           git pull
           docker compose -f docker-compose-product.yaml restart
