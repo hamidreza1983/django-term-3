@@ -96,3 +96,4 @@ wheel==0.43.0
 zope.event==5.0
 zope.interface==7.2
 psycopg2-binary
+gunicorn

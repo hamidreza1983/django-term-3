@@ -9,8 +9,6 @@ services:
      - 8000:8000
     volumes:
      - .:/core
-     - static_volume:/core/static
-     - media_volume:/core/media
     depends_on:
       - redis
 
@@ -23,7 +21,6 @@ services:
       - redis
       - backend
 
-  
   redis:
     image: redis:latest
     restart: always
@@ -44,20 +41,6 @@ services:
     environment:
       - ServerOptions__HostName=smtp4dev
 
-  master:
-    image: locustio/locust
-    ports:
-     - "8089:8089"
-    volumes:
-      - ./locust:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://backend:8000
-  
-  worker1:
-    image: locustio/locust
-    volumes:
-      - ./locust:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --worker --master-host master
-
   postgres:
     image: postgres:14-alpine
     container_name: posg
@@ -69,25 +52,9 @@ services:
       - POSTGRES_PASSWORD=mypassword
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
-  
-  nginx:
-    image: nginx
-    container_name: nginx
-    ports:
-      - "80:80"
-    restart: always
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf
-      - static_volume:/home/core/static
-      - media_volume:/home/core/media
-    depends_on:
-      - redis
-      - backend
 
 
 
 volumes:
   smtp4dev-data:
   postgres_data:
-  static_volume:
-  media_volume:
