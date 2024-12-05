@@ -31,15 +31,15 @@ jobs:
       name: Execute Command
     - uses: appleboy/ssh-action@v1.2.0
       with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: "22"
-          script: |
-          cd /home/${{ secrets.USERNAME }}/Desktop/django-term-3
-          docker compose -f docker-compose-product.yaml stop
-          git pull
-          docker compose -f docker-compose-product.yaml restart
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: "22"
+        script:
+        cd /home/${{ secrets.USERNAME }}/Desktop/django-term-3
+        docker compose -f docker-compose-product.yaml stop
+        git pull
+        docker compose -f docker-compose-product.yaml restart
 
 
 
