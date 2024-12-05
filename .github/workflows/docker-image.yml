@@ -9,7 +9,7 @@ on:
 jobs:
 
   build:
-
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +20,26 @@ jobs:
       run: docker exec django-drf sh -c "python manage.py test ."
     - name: Run test Api
       run: docker exec django-drf sh -c "pytest ./services/api/v1/tests.py"
+
+  deploy:
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
+    name: deploy
+    needs: Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      name: Execute Command
+    - uses: appleboy/ssh-action@v1.2.0
+      with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: "22"
+          script: |
+          cd /home/${{ secrets.USERNAME }}/Desktop/django-term-3
+          docker compose -f docker-compose-product.yaml stop
+          git pull
+          docker compose -f docker-compose-product.yaml restart
+
+
+
