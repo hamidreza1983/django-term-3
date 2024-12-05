@@ -24,7 +24,7 @@ jobs:
   deploy:
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     name: deploy
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
